@@ -13,7 +13,7 @@ import zipfile
 @csrf_exempt
 def index(request):
     if request.method == 'POST':
-        arrival = request.POST['arrival_city']
+        arrival = request.POST['Arrival_city']
         print('we are using post '+arrival)
     return render(request, 'index.html')
 
