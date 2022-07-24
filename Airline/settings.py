@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-_!tc0hi^+&sf=-1#=vesn9eq3&7(xd4gpa8=y4othxv*6jzv)l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['airline-teama.herokuapp.com']
 
 
 # Application definition
