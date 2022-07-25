@@ -11,13 +11,6 @@ import zipfile
 
 
 @csrf_exempt
-def index(request):
-    if request.method == 'POST':
-        arrival = request.POST['Arrival_city']
-        print('we are using post '+arrival)
-    return render(request, 'index.html')
-
-
 def predict(request):
     if request.method == 'POST':
         dcity = request.POST['Source_city'].lower()
