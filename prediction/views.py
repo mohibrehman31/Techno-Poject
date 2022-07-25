@@ -234,4 +234,5 @@ def predict(request):
                 ), acity.capitalize(), k_1, int(p_1[0]), "₹"+str(int(pred[0]))])
             data = tuple(data)
 
-        return render('travel1.html', headings=headings, data=data)
+    return render(request, 'index.html')
+
