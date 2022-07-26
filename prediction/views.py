@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 import pickle as pkl
 import zipfile
 
-
+# sds
 @csrf_exempt
 def predict(request):
     if request.method == 'POST':
