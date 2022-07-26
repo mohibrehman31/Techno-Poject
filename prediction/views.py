@@ -35,13 +35,13 @@ def predict(request):
 
         if cabin == 'B':
             print("HII_B")
-            model_time = joblib.load('B/B_time_predict.pkl')
-            price_scaler = joblib.load('B/B_price_scaler.pkl')
-            model_price = joblib.load('B/B_price_predict.pkl')
-            scaler = joblib.load('B/B_scaler.pkl')
-            airline_dict = joblib.load('B/B_airline_dict.pkl')
-            city_dict = joblib.load('B/B_City_dict.pkl')
-            duration = joblib.load('B/B_duration.pkl')
+            model_time = joblib.load('prediction/B/B_time_predict.pkl')
+            price_scaler = joblib.load('prediction/B/B_price_scaler.pkl')
+            model_price = joblib.load('prediction/B/B_price_predict.pkl')
+            scaler = joblib.load('prediction/B/B_scaler.pkl')
+            airline_dict = joblib.load('prediction/B/B_airline_dict.pkl')
+            city_dict = joblib.load('prediction/B/B_City_dict.pkl')
+            duration = joblib.load('prediction/B/B_duration.pkl')
             acity_enc = city_dict[acity]
             dcity_enc = city_dict[dcity]
             k_0 = str(dcity_enc)+","+str(acity_enc)
