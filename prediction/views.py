@@ -55,13 +55,13 @@ def predict(request):
 
         if cabin == 'PE':
             print("HII_PE")
-            model_time = joblib.load('PE/PE_time_predict.pkl')
-            price_scaler = joblib.load('PE/PE_price_scaler.pkl')
-            model_price = joblib.load('PE/PE_price_predict.pkl')
-            scaler = joblib.load('PE/PE_scaler.pkl')
-            airline_dict = joblib.load('PE/PE_airline_dict.pkl')
-            city_dict = joblib.load('PE/PE_City_dict.pkl')
-            duration = joblib.load('PE/PE_duration.pkl')
+            model_time = joblib.load('prediction/PE/PE_time_predict.pkl')
+            price_scaler = joblib.load('prediction/PE/PE_price_scaler.pkl')
+            model_price = joblib.load('prediction/PE/PE_price_predict.pkl')
+            scaler = joblib.load('prediction/PE/PE_scaler.pkl')
+            airline_dict = joblib.load('prediction/PE/PE_airline_dict.pkl')
+            city_dict = joblib.load('prediction/PE/PE_City_dict.pkl')
+            duration = joblib.load('prediction/PE/PE_duration.pkl')
             acity_enc = city_dict[acity]
             dcity_enc = city_dict[dcity]
             k_0 = str(dcity_enc)+","+str(acity_enc)
@@ -72,16 +72,19 @@ def predict(request):
             optimal_price = model_price.predict(y)
             print('Optimal hours = ',optimal_time,'Optimal Price = ',optimal_price)
             print("HII_PE_END")
+            dic = [{
+            'result' : 'Hello'
+            }]
 
         if cabin == 'E':
             print("HII_E")
-            model_time = joblib.load('E/E_time_predict.pkl')
-            price_scaler = joblib.load('E/E_price_scaler.pkl')
-            model_price = joblib.load('E/E_price_predict.pkl')
-            scaler = joblib.load('E/E_scaler.pkl')
-            airline_dict = joblib.load('E/E_airline_dict.pkl')
-            city_dict = joblib.load('E/E_City_dict.pkl')
-            duration = joblib.load('E_duration.pkl')
+            model_time = joblib.load('prediction/E/E_time_predict.pkl')
+            price_scaler = joblib.load('prediction/E/E_price_scaler.pkl')
+            model_price = joblib.load('prediction/E/E_price_predict.pkl')
+            scaler = joblib.load('prediction/E/E_scaler.pkl')
+            airline_dict = joblib.load('prediction/E/E_airline_dict.pkl')
+            city_dict = joblib.load('prediction/E/E_City_dict.pkl')
+            duration = joblib.load('prediction/E_duration.pkl')
             acity_enc = city_dict[acity]
             dcity_enc = city_dict[dcity]
             k_0 = str(dcity_enc)+","+str(acity_enc)
@@ -92,6 +95,8 @@ def predict(request):
             optimal_price = model_price.predict(y)
             print('Optimal hours = ',optimal_time,'Optimal Price = ',optimal_price)
             print("HII_E_END")
+    
+        return render(request, 'index.html',{'optimal_price':optimal_price[0],'optimal_time':optimal_time[0]})
 
-    return render(request, 'index.html')
+    return render(request, 'index.html',{})
 
