@@ -9,19 +9,53 @@ from sklearn.preprocessing import StandardScaler
 import pickle as pkl
 import zipfile
 
+
+
+global optimal_price, optimal_time, Source_city,Arrival_city, Cabin, Date,Time
+
+optimal_price = ' '
+optimal_time = ' '    
+Source_city = ' '
+Arrival_city = ' '
+Cabin = ' '
+Date = ' '
+Time = ' '
+
+
+# @csrf_exempt
+# def neW(request):
+#     if request.method == 'POST':
+#         print(optimal_price,'HELLO')
+#         return render(request, 'airlineticket.html',{'optimal_price':optimal_price,'optimal_time':optimal_time,'Source_city':Source_city,'Arrival_city':Arrival_city,'Cabin':Cabin,'Date':Date,'Time':Time})
+
+
+
+@csrf_exempt
+def home(request):
+    return render(request, 'index.html',{})
+
+
 @csrf_exempt
 def predict(request):
+
     if request.method == 'POST':
         dcity = request.POST['Source_city'].lower()
         acity = request.POST['Arrival_city'].lower()
         cabin = request.POST['Cabin']
         date = request.POST['Date']
-        time = request.POST['Time'].split(':')[0]
+        time = request.POST['Time']
+
+        Source_city = dcity
+        Arrival_city = acity
+        Cabin = cabin
+        Date = date
+        Time = time
+
         month = pd.to_datetime(date).month
-        hour = time
+        hour = time.split(':')[0]
         day = pd.to_datetime(date).day
         weekday = pd.to_datetime(date).dayofweek
-        time = int(time)
+        time = int(hour)
         if time >= 16 and time < 21:
             temp_time = 1
         if time >= 21 or time < 5:
@@ -52,6 +86,8 @@ def predict(request):
             optimal_price = model_price.predict(y)
             print('Optimal hours = ',optimal_time,'Optimal Price = ',optimal_price)
             print("HII_B_END")
+            optimal_price = optimal_price[0]
+            optimal_time = optimal_time[0]
 
         if cabin == 'PE':
             print("HII_PE")
@@ -95,8 +131,8 @@ def predict(request):
             optimal_price = model_price.predict(y)
             print('Optimal hours = ',optimal_time,'Optimal Price = ',optimal_price)
             print("HII_E_END")
-    
-        return render(request, 'index.html',{'optimal_price':optimal_price[0],'optimal_time':optimal_time[0]})
 
-    return render(request, 'index.html',{})
+        return render(request, 'airlineticket.html',{'optimal_price':optimal_price,'optimal_time':optimal_time,'Source_city':Source_city,'Arrival_city':Arrival_city,'Cabin':Cabin,'Date':Date,'Time':Time})
 
+
+    return HttpResponse("ERROR")
