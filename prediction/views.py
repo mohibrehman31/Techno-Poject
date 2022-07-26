@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import pandas as pd
 import numpy as np
 import pickle
-from joblib import dump, load
+import joblib
 from sklearn.preprocessing import StandardScaler
 import pickle as pkl
 import zipfile
