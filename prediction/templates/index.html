@@ -180,11 +180,6 @@
             name="Time"
           /><br /><br />
           <input type="submit" value="Submit"/><br /><br />
-          <h4>
-            {% csrf_token %} {% if optimal_price != None %}
-            <label>Optimal Price : {{optimal_price}}</label>
-            <label>Optimal Time : {{optimal_time}}</label> {% endif %}
-          </h4>
         </form>
       </div>
     </main>

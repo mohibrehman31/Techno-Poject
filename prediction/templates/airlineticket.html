@@ -115,7 +115,7 @@
         <div class="body-section">
             <div class="row">
                 <div class="col-6">
-                    <h2 class="heading">Choose The Best Path</h2>
+                    <h2 class="heading">Choose The Best Airline Price</h2>
                     <p class="sub-heading">Departure City: {{Source_city}} </p>
                     <p class="sub-heading">Arrival City: {{Arrival_city}}</p>
                     <p class="sub-heading">Cabin: {{Cabin}}</p>
@@ -133,18 +133,26 @@
             <table class="table-bordered">
                 <thead>
                     <tr>
-                        <th>Airline Name</th>
+                        <th class="w-20">Airline1 Name</th>
+                        <th class="w-20">Airline2 Name</th>
                         <th class="w-20">Stops</th>
+                        <th class="w-20">Departure Time</th>
+                        <th class="w-20">Arrival Time</th>
+                        <th class="w-20">Departure Date</th>
                         <th class="w-20">Optimal Hours</th>
                         <th class="w-20">Price</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Airline 1</td>
-                        <td>2</td>
-                        <td>{{optimal_time}}</td>
-                        <td>{{optimal_price}}</td>
+                        <td>{{Airline1}}</td>
+                        <td>{{Airline2}}</td>
+                        <td>{{stops}}</td>
+                        <td>{{departure_time}}</td>
+                        <td>{{arrival_time}}</td>
+                        <td>{{Dept_date}}</td>
+                        <td>{{optimal_hours}}</td>
+                        <td>{{Price}}</td>
                     </tr>
                 </tbody>
             </table>
