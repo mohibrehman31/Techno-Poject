@@ -156,6 +156,9 @@ l.append((np.linalg.norm(x - y),i))
 l.sort(key=lambda i:i[0])
 x=0
 for i,j in l:
+
+<!-- to get nearest five optimal time and price -->
+
 if x<5:
 final_list.append(j)
 x=x+1
