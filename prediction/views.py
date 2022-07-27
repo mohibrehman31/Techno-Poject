@@ -100,15 +100,15 @@ def predict(request):
                     'departure_time':i[5],
                     'Dept_date':i[6],
                     'arrival_time':i[7],
-                    'optimal_hours':i[8],
-                    'Price':i[9]
+                    'optimal_hours':round(int(i[8])),
+                    'Price':'₹'+str(round(int(i[9])))
                 }
                 result.append(Dict)
             print("HII_B_END")
         if cabin == 'PE':
             print("HII_PE")
             model_time = joblib.load('prediction/PE/PE_time_predict.pkl')
-            price_scaler = joblib.load('prediction/PE/PE_price_scaler.pkl')
+            price_scaler = joblib.load('prediction/PE/PE_scaler.pkl')
             model_price = joblib.load('prediction/PE/PE_price_predict.pkl')
             scaler = joblib.load('prediction/PE/PE_scaler.pkl')
             airline_dict = joblib.load('prediction/PE/PE_airline_dict.pkl')
@@ -154,8 +154,8 @@ def predict(request):
                     'departure_time':i[5],
                     'Dept_date':i[6],
                     'arrival_time':i[7],
-                    'optimal_hours':i[8],
-                    'Price':i[9]
+                    'optimal_hours':round(int(i[8])),
+                    'Price':'₹'+str(round(int(i[9])))
                 }
                 result.append(Dict)
             print("HII_PE_END")
