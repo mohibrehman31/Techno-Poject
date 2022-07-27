@@ -54,14 +54,14 @@ def predict(request):
             model_time = joblib.load('prediction/B/B_time_predict.pkl')
             price_scaler = joblib.load('prediction/B/B_price_scaler.pkl')
             model_price = joblib.load('prediction/B/B_price_predict.pkl')
-            scaler = joblib.load('prediction/B/B_scaler.pkl')
+            time_scaler = joblib.load('prediction/B/B_time_scaler.pkl')
             airline_dict = joblib.load('prediction/B/B_airline_dict.pkl')
             city_dict = joblib.load('prediction/B/B_City_dict.pkl')
             Airline_and_details = joblib.load('prediction/B/B_Airline_list_final.pkl')
             acity_enc = city_dict[acity]
             dcity_enc = city_dict[dcity]
             key = str(dcity_enc)+","+str(acity_enc)
-            x = scaler.transform(
+            x = time_scaler.transform(
                 [[1, dcity_enc, day, acity_enc, weekday, hour, temp_time]])
             optimal_time = model_time.predict(x)
             y = price_scaler.transform(
@@ -109,16 +109,15 @@ def predict(request):
             print("HII_PE")
             model_time = joblib.load('prediction/PE/PE_time_predict.pkl')
             price_scaler = joblib.load('prediction/PE/PE_price_scaler.pkl')
-            print('hello',price_scaler)
             model_price = joblib.load('prediction/PE/PE_price_predict.pkl')
-            scaler = joblib.load('prediction/PE/PE_scaler.pkl')
+            time_scaler = joblib.load('prediction/PE/PE_time_scaler.pkl')
             airline_dict = joblib.load('prediction/PE/PE_airline_dict.pkl')
             city_dict = joblib.load('prediction/PE/PE_City_dict.pkl')
             Airline_and_details = joblib.load('prediction/PE/PE_Airline_list_final.pkl')
             acity_enc = city_dict[acity]
             dcity_enc = city_dict[dcity]
             key = str(dcity_enc)+","+str(acity_enc)
-            x = scaler.transform([[2, dcity_enc, day, acity_enc, weekday, hour, temp_time]])
+            x = time_scaler.transform([[2, dcity_enc, day, acity_enc, weekday, hour, temp_time]])
             optimal_time = model_time.predict(x)
             y = price_scaler.transform([[2, dcity_enc, day, acity_enc, weekday, hour, temp_time, optimal_time]])
             optimal_price = model_price.predict(y)
@@ -165,14 +164,14 @@ def predict(request):
             model_time = joblib.load('prediction/E/E_time_predict.pkl')
             price_scaler = joblib.load('prediction/E/E_price_scaler.pkl')
             model_price = joblib.load('prediction/E/E_price_predict.pkl')
-            scaler = joblib.load('prediction/E/E_scaler.pkl')
+            time_scaler = joblib.load('prediction/E/E_time_scaler.pkl')
             airline_dict = joblib.load('prediction/E/E_airline_dict.pkl')
             city_dict = joblib.load('prediction/E/E_City_dict.pkl')
             Airline_and_details = joblib.load('prediction/E/E_Airline_list_final.pkl')
             acity_enc = city_dict[acity]
             dcity_enc = city_dict[dcity]
             key = str(dcity_enc)+","+str(acity_enc)
-            x = scaler.transform([[0, dcity_enc, day, acity_enc, weekday, hour, temp_time]])
+            x = time_scaler.transform([[0, dcity_enc, day, acity_enc, weekday, hour, temp_time]])
             optimal_time = model_time.predict(x)
             y = price_scaler.transform([[0, dcity_enc, day, acity_enc, weekday, hour, temp_time, optimal_time]])
             optimal_price = model_price.predict(y)
