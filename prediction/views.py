@@ -108,7 +108,8 @@ def predict(request):
         if cabin == 'PE':
             print("HII_PE")
             model_time = joblib.load('prediction/PE/PE_time_predict.pkl')
-            price_scaler = joblib.load('prediction/PE/PE_scaler.pkl')
+            price_scaler = joblib.load('prediction/PE/PE_price_scaler.pkl')
+            print('hello',price_scaler)
             model_price = joblib.load('prediction/PE/PE_price_predict.pkl')
             scaler = joblib.load('prediction/PE/PE_scaler.pkl')
             airline_dict = joblib.load('prediction/PE/PE_airline_dict.pkl')
