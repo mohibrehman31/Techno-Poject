@@ -38,15 +38,13 @@ from sklearn.preprocessing import LabelEncoder
 
 le = LabelEncoder()
 
-df1['Cabin'] = le.fit_transform(df1['Cabin'])
-df1['Dept_city'] = le.fit_transform(df1['Dept_city'])
-df1['arrival_city'] = le.fit_transform(df1['arrival_city'])
-df1['Dept_flights_time'] = le.fit_transform(df1['Dept_flights_time'])
-df1['Airline1'] = le.fit_transform(df1['Airline1'])
-df1['Airline2'] = le.fit_transform(df1['Airline2'])
-df1['departure_time'] = le.fit_transform(df1['departure_time'])
+integermapping = {l: str(i) for i, l in enumerate(le.classes)}
+x.replace({'arrival_city' : integer_mapping},inplace=True)
+x.replace({'Dept_city' : integer_mapping},inplace=True)
 
-This helps us handle categorical variables, each variable is assigned a unique integer based on alphabetical ordering so that they can be used in prediction of label.
+This helps us handle categorical variables, each variable is assigned a unique integer for every unique city so that naming conflicts donot occur between departure city and arrival city.
+
+{'amritsar': 0, 'bagdogra': 1, 'bengaluru': 2, 'bhubaneswar': 3, 'chandigarh': 4, 'chennai': 5, 'coimbatore': 6, 'goa': 7, 'guwahati': 8, 'hyderabad': 9, 'indore': 10, 'jaipur': 11, 'kochi': 12, 'kolkata': 13, 'kozhikode': 14, 'lucknow': 15, 'mangalore': 16, 'mumbai': 17, 'nagpur': 18, 'new delhi': 19, 'patna': 20, 'port blair': 21, 'pune': 22, 'raipur': 23, 'ranchi': 24, 'srinagar': 25, 'thiruvananthapuram': 26, 'tiruchirappalli': 27, 'varanasi': 28, 'visakhapatnam': 29}
 
 ## EDA
 
@@ -147,6 +145,7 @@ you can access our app by following this link []()
 
 We deployed our Django application to [ Heroku.com](https://www.heroku.com/). In this way, we can share our app on the internet with others.
 Airline_and_details.pkl : contains a list of values in which first index indicates the arrival and departure city entered by user on front end. It clusters the data having same arrival and departure city and filter the data whose date is greater than the date provided by the user, to be used in predictions of Optimal time and price.
+
 l = list()
 final_list = list()
 y = np.array((optimal_price,optimal_time))
@@ -160,4 +159,5 @@ for i,j in l:
 if x<5:
 final_list.append(j)
 x=x+1
+
 this function finds the closest five pairs (Optimal Price and time using Euclidean distance) with respect to predicted optimal time and price and displays corresponding Airline, Stops, Duration, Departure Time and Arrival Time.
