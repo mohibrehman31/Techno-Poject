@@ -10,22 +10,7 @@ import pickle as pkl
 import zipfile
 
 
-global optimal_price, optimal_time, Source_city, Arrival_city, Cabin, Date, Time
 
-optimal_price = ' '
-optimal_time = ' '
-Source_city = ' '
-Arrival_city = ' '
-Cabin = ' '
-Date = ' '
-Time = ' '
-
-
-# @csrf_exempt
-# def neW(request):
-#     if request.method == 'POST':
-#         print(optimal_price,'HELLO')
-#         return render(request, 'airlineticket.html',{'optimal_price':optimal_price,'optimal_time':optimal_time,'Source_city':Source_city,'Arrival_city':Arrival_city,'Cabin':Cabin,'Date':Date,'Time':Time})
 
 
 @csrf_exempt
@@ -35,7 +20,22 @@ def home(request):
 
 @csrf_exempt
 def predict(request):
-
+    # def fun(key,Optimal_Price,Optimal_hours,Airline_and_details):
+    #     l = list()
+    #     final_list = list()
+    #     y = np.array((Optimal_Price,Optimal_hours))
+    #     for i in Airline_and_details:
+    #         if(i[0]==key and i[-4]>1):
+    #             x = np.array((i[-1],i[-2]))
+    #             l.append((np.linalg.norm(x - y),i))
+    #     l.sort(key=lambda i:i[0])
+    #     x=0
+    #     for i,j in l:
+    #         if x<5:
+    #             final_list.append(j)
+    #         x=x+1
+    #     return final_list
+    
     if request.method == 'POST':
         dcity = request.POST['Source_city'].lower()
         acity = request.POST['Arrival_city'].lower()
@@ -77,8 +77,8 @@ def predict(request):
             Airline_and_details = joblib.load('prediction/B/B_Airline_list_final.pkl')
             acity_enc = city_dict[acity]
             dcity_enc = city_dict[dcity]
-            k_0 = str(dcity_enc)+","+str(acity_enc)
-            k_0 = np.asarray(duration[k_0])
+            key = str(dcity_enc)+","+str(acity_enc)
+            k_0 = np.asarray(duration[key])
             x = scaler.transform(
                 [[1, dcity_enc, day, acity_enc, k_0, weekday, hour, temp_time]])
             optimal_time = model_time.predict(x)
@@ -87,21 +87,40 @@ def predict(request):
             optimal_price = model_price.predict(y)
             optimal_price = optimal_price[0]
             optimal_time = optimal_time[0]
-            newDict = dict()
+
+            l = list()
+            final_list = list()
+            y = np.array((optimal_price,optimal_time))
             for i in Airline_and_details:
-                if(i[-4]>day and i[0]==k_0):
-                    print(i)
-            print(newDict)
-            lists = list(newDict.values())
+                if(i[0]==str(key) and i[-4]>day):
+                    x = np.array((i[-1],i[-2]))
+                    l.append((np.linalg.norm(x - y),i))
+            l.sort(key=lambda i:i[0])
+            x=0
+            for i,j in l:
+                if x<5:
+                    final_list.append(j)
+                x=x+1
+            
             new_dict = dict([(value, key) for key, value in airline_dict.items()])
-            Airline1 = new_dict[lists[0][0]]
-            Airline2 = new_dict[lists[0][1]]
-            stops = lists[0][2]
-            departure_time = lists[0][3]
-            Dept_date = lists[0][4]
-            arrival_time = lists[0][5]
-            optimal_hours = lists[0][6]
-            Price = lists[0][7]
+            result = list()
+            for i in final_list:
+                Dict = {
+                    'Source_city':Source_city.capitalize(),
+                    'Arrival_city':Arrival_city.capitalize(),
+                    'Cabin':Cabin,
+                    'Date':Date,
+                    'Time':Time,
+                    'Airline1':new_dict[i[1]],
+                    'Airline2':new_dict[i[2]],
+                    'stops':i[3],
+                    'departure_time':i[4],
+                    'Dept_date':i[5],
+                    'arrival_time':i[6],
+                    'optimal_hours':i[7],
+                    'Price':i[8]
+                }
+                result.append(Dict)
             print("HII_B_END")
         if cabin == 'PE':
             print("HII_PE")
@@ -112,20 +131,52 @@ def predict(request):
             airline_dict = joblib.load('prediction/PE/PE_airline_dict.pkl')
             city_dict = joblib.load('prediction/PE/PE_City_dict.pkl')
             duration = joblib.load('prediction/PE/PE_duration.pkl')
+            Airline_and_details = joblib.load('prediction/PE/PE_Airline_list_final.pkl')
             acity_enc = city_dict[acity]
             dcity_enc = city_dict[dcity]
-            k_0 = str(dcity_enc)+","+str(acity_enc)
-            k_0 = np.asarray(duration[k_0])
-            x = scaler.transform([[1 ,dcity_enc,day,acity_enc,k_0,weekday,hour,temp_time]])
+            key = str(dcity_enc)+","+str(acity_enc)
+            k_0 = np.asarray(duration[key])
+            x = scaler.transform([[2, dcity_enc, day, acity_enc, k_0, weekday, hour, temp_time]])
             optimal_time = model_time.predict(x)
-            y = price_scaler.transform([[1 ,dcity_enc,day,acity_enc,k_0,weekday,hour,temp_time,optimal_time]])
+            y = price_scaler.transform([[2, dcity_enc, day, acity_enc, k_0, weekday, hour, temp_time, optimal_time]])
             optimal_price = model_price.predict(y)
-            print('Optimal hours = ',optimal_time,'Optimal Price = ',optimal_price)
-            print("HII_PE_END")
-            dic = [{
-            'result' : 'Hello'
-            }]
+            optimal_price = optimal_price[0]
+            optimal_time = optimal_time[0]
 
+            l = list()
+            final_list = list()
+            y = np.array((optimal_price,optimal_time))
+            for i in Airline_and_details:
+                if(i[0]==str(key) and i[-4]>day):
+                    x = np.array((i[-1],i[-2]))
+                    l.append((np.linalg.norm(x - y),i))
+            l.sort(key=lambda i:i[0])
+            x=0
+            for i,j in l:
+                if x<5:
+                    final_list.append(j)
+                x=x+1
+            
+            new_dict = dict([(value, key) for key, value in airline_dict.items()])
+            result = list()
+            for i in final_list:
+                Dict = {
+                    'Source_city':Source_city.capitalize(),
+                    'Arrival_city':Arrival_city.capitalize(),
+                    'Cabin':Cabin,
+                    'Date':Date,
+                    'Time':Time,
+                    'Airline1':new_dict[i[1]],
+                    'Airline2':new_dict[i[2]],
+                    'stops':i[3],
+                    'departure_time':i[4],
+                    'Dept_date':i[5],
+                    'arrival_time':i[6],
+                    'optimal_hours':i[7],
+                    'Price':i[8]
+                }
+                result.append(Dict)
+            print("HII_PE_END")
         if cabin == 'E':
             print("HII_E")
             model_time = joblib.load('prediction/E/E_time_predict.pkl')
@@ -134,19 +185,55 @@ def predict(request):
             scaler = joblib.load('prediction/E/E_scaler.pkl')
             airline_dict = joblib.load('prediction/E/E_airline_dict.pkl')
             city_dict = joblib.load('prediction/E/E_City_dict.pkl')
-            duration = joblib.load('prediction/E_duration.pkl')
+            duration = joblib.load('prediction/E/E_duration.pkl')
+            Airline_and_details = joblib.load('prediction/E/E_Airline_list_final.pkl')
             acity_enc = city_dict[acity]
             dcity_enc = city_dict[dcity]
-            k_0 = str(dcity_enc)+","+str(acity_enc)
-            k_0 = np.asarray(duration[k_0])
-            x = scaler.transform([[1 ,dcity_enc,day,acity_enc,k_0,weekday,hour,temp_time]])
+            key = str(dcity_enc)+","+str(acity_enc)
+            k_0 = np.asarray(duration[key])
+            x = scaler.transform([[0, dcity_enc, day, acity_enc, k_0, weekday, hour, temp_time]])
             optimal_time = model_time.predict(x)
-            y = price_scaler.transform([[1 ,dcity_enc,day,acity_enc,k_0,weekday,hour,temp_time,optimal_time]])
+            y = price_scaler.transform([[0, dcity_enc, day, acity_enc, k_0, weekday, hour, temp_time, optimal_time]])
             optimal_price = model_price.predict(y)
-            print('Optimal hours = ',optimal_time,'Optimal Price = ',optimal_price)
+            optimal_price = optimal_price[0]
+            optimal_time = optimal_time[0]
+
+            l = list()
+            final_list = list()
+            y = np.array((optimal_price,optimal_time))
+            for i in Airline_and_details:
+                if(i[0]==str(key) and i[-4]>day):
+                    x = np.array((i[-1],i[-2]))
+                    l.append((np.linalg.norm(x - y),i))
+            l.sort(key=lambda i:i[0])
+            x=0
+            for i,j in l:
+                if x<5:
+                    final_list.append(j)
+                x=x+1
+            
+            new_dict = dict([(value, key) for key, value in airline_dict.items()])
+            result = list()
+            for i in final_list:
+                Dict = {
+                    'Source_city':Source_city.capitalize(),
+                    'Arrival_city':Arrival_city.capitalize(),
+                    'Cabin':Cabin,
+                    'Date':Date,
+                    'Time':Time,
+                    'Airline1':new_dict[i[1]],
+                    'Airline2':new_dict[i[2]],
+                    'stops':i[3],
+                    'departure_time':i[4],
+                    'Dept_date':i[5],
+                    'arrival_time':i[6],
+                    'optimal_hours':i[7],
+                    'Price':i[8]
+                }
+                result.append(Dict)
             print("HII_E_END")
 
-        return render(request, 'airlineticket.html',{'optimal_price':optimal_price,'optimal_time':optimal_time,'Source_city':Source_city.capitalize(),'Arrival_city':Arrival_city.capitalize(),'Cabin':Cabin,'Date':Date,'Time':Time,'Airline1':Airline1,'Airline2':Airline2,'stops':stops,'departure_time':departure_time,'Dept_date':Dept_date,'arrival_time':arrival_time,'optimal_hours':optimal_hours,'Price':Price})
+        return render(request, 'airlineticket.html',{'listDict': result})
 
 
     return HttpResponse("ERROR")

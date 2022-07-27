@@ -116,13 +116,13 @@
             <div class="row">
                 <div class="col-6">
                     <h2 class="heading">Choose The Best Airline Price</h2>
-                    <p class="sub-heading">Departure City: {{Source_city}} </p>
-                    <p class="sub-heading">Arrival City: {{Arrival_city}}</p>
-                    <p class="sub-heading">Cabin: {{Cabin}}</p>
+                    <p class="sub-heading">Departure City: {{listDict.0.Source_city}} </p>
+                    <p class="sub-heading">Arrival City: {{listDict.0.Arrival_city}}</p>
+                    <p class="sub-heading">Cabin: {{listDict.0.Cabin}}</p>
                 </div>
                 <div class="col-6">
-                    <p class="sub-heading">Date: {{Date}}</p>
-                    <p class="sub-heading">Time: {{Time}}</p>
+                    <p class="sub-heading">Date: {{listDict.0.Date}}</p>
+                    <p class="sub-heading">Time: {{listDict.0.Time}}</p>
                 </div>
             </div>
         </div>
@@ -133,8 +133,8 @@
             <table class="table-bordered">
                 <thead>
                     <tr>
-                        <th class="w-20">Airline1 Name</th>
-                        <th class="w-20">Airline2 Name</th>
+                        <th class="w-20">Airline1</th>
+                        <th class="w-20">Airline2</th>
                         <th class="w-20">Stops</th>
                         <th class="w-20">Departure Time</th>
                         <th class="w-20">Arrival Time</th>
@@ -144,16 +144,19 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {%for item in listDict %}
                     <tr>
-                        <td>{{Airline1}}</td>
-                        <td>{{Airline2}}</td>
-                        <td>{{stops}}</td>
-                        <td>{{departure_time}}</td>
-                        <td>{{arrival_time}}</td>
-                        <td>{{Dept_date}}</td>
-                        <td>{{optimal_hours}}</td>
-                        <td>{{Price}}</td>
+                        <td>{{item.Airline1}}</td>
+                        <td>{{item.Airline2}}</td>
+                        <td>{{item.stops}}</td>
+                        <td>{{item.departure_time}}</td>
+                        <td>{{item.arrival_time}}</td>
+                        <td>{{item.Dept_date}}</td>
+                        <td>{{item.optimal_hours}}</td>
+                        <td>{{item.Price}}</td>
                     </tr>
+                    {% endfor %}
+                    
                 </tbody>
             </table>
             <br>
